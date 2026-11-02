@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verwaltungspsychologie III – Modul 17.2 | Interkulturelle Kommunikation & Deeskalation</title>
+  <meta name="description" content="Interaktives Lern- und Prüfungstool für Verwaltungspsychologie III an der Hochschule des Bundes für öffentliche Verwaltung (Zolldienst LL.B.)">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-top">
+      <div class="brand-container">
+        <div class="brand-icon">🏛️</div>
+        <div class="brand-text">
+          <h1>
+            Verwaltungspsychologie III
+            <span class="brand-badge">Modul 17.2</span>
+          </h1>
+          <div class="brand-subtitle">HS Bund • Zolldienst des Bundes (LL.B.) • 30% der Modulklausur</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <div class="quick-stats">
+          <div class="stat-pill">
+            <span>🗂️ Gelernt:</span>
+            <strong id="stat-learned-count">0 / 90</strong>
+          </div>
+          <div class="stat-pill" style="border-left: 1px solid var(--border-color); padding-left: 0.75rem;">
+            <span>🏆 Quiz-Bestwert:</span>
+            <strong id="stat-quiz-best">0%</strong>
+          </div>
+        </div>
+        <button id="theme-toggle" class="btn-icon" title="Hell-/Dunkelmodus umschalten" aria-label="Theme umschalten">🌙</button>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <button class="nav-item active" data-view="kompendium">
+        <span>📚</span> Wissenskompendium
+      </button>
+      <button class="nav-item" data-view="flashcards">
+        <span>🗂️</span> Karteikarten-Trainer <span class="nav-badge">90</span>
+      </button>
+      <button class="nav-item" data-view="quiz">
+        <span>📝</span> Klausursimulator <span class="nav-badge">55</span>
+      </button>
+      <button class="nav-item" data-view="techniques">
+        <span>🛡️</span> 10 Deeskalationstechniken
+      </button>
+      <button class="nav-item" data-view="models">
+        <span>🔬</span> Interaktive Modelle
+      </button>
+      <button class="nav-item" data-view="cases">
+        <span>⚖️</span> Fallstudien & Praxis
+      </button>
+      <button class="nav-item" data-view="cheatsheet">
+        <span>⚡</span> Klausur-Spickzettel
+      </button>
+    </nav>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="app-container">
+
+    <!-- ====================================================================
+         VIEW 1: WISSENSKOMPENDIUM
+         ==================================================================== -->
+    <section id="view-kompendium" class="view-section active">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2><span>📚</span> Vorlesungskompendium</h2>
+          <p class="section-desc">Strukturierte, vollständige Lernnotizen zu allen Vorlesungseinheiten (LE 1 bis LE 7: Interkulturelle Kommunikation, Deeskalation & Virtuelle Zusammenarbeit), Autorenzitaten und klausurrelevanten Definitionen.</p>
+        </div>
+        <div class="section-controls">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-general" placeholder="Begriff, Autor oder Modell suchen..." aria-label="Suche">
+          </div>
+        </div>
+      </div>
+
+      <!-- Module Selection Tabs -->
+      <div class="module-tabs" id="kompendium-mod-tabs"></div>
+
+      <!-- Content Cards List -->
+      <div id="kompendium-content-list"></div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 2: KARTEIKARTEN / FLASHCARDS (LEITNER 5-BOX SYSTEM)
+         ==================================================================== -->
+    <section id="view-flashcards" class="view-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2><span>🗂️</span> Karteikarten & Spaced Repetition</h2>
+          <p class="section-desc">Auswendiglernen nach dem Leitner 5-Boxen-System. Steuerung auch bequem per Tastatur: <kbd>Leertaste</kbd> zum Wenden, <kbd>1</kbd> für Noch üben, <kbd>2</kbd> für Unsicher, <kbd>3</kbd> für Gewusst.</p>
+        </div>
+        <div class="section-controls">
+          <select id="card-deck-filter" class="filter-select" aria-label="Karten filtern"></select>
+          <button id="btn-shuffle-cards" class="btn btn-secondary btn-sm" title="Stapel mischen">🔀 Mischen</button>
+          <button id="btn-reset-deck" class="btn btn-secondary btn-sm" title="Fortschritt zurücksetzen">🔄 Reset</button>
+        </div>
+      </div>
+
+      <div class="flashcard-wrapper">
+        <!-- Leitner Box Progress Tracker -->
+        <div class="leitner-boxes-bar" id="leitner-boxes-bar"></div>
+
+        <!-- 3D Card Scene -->
+        <div class="flashcard-3d-scene" id="flashcard-scene">
+          <div class="flashcard-3d-card" id="flashcard-3d-card">
+            <!-- Front Face -->
+            <div class="card-face card-face-front">
+              <div class="card-top-meta">
+                <span class="card-category-tag" id="card-module-badge">LE 1</span>
+                <span id="card-counter-indicator" style="font-weight: 600;">Karte 1 von 64</span>
+                <span class="tip-badge" id="card-box-badge">Box 1 / 5</span>
+              </div>
+              <div class="card-content-center">
+                <h3 id="card-front-title">Lade Karteikarten...</h3>
+              </div>
+              <div class="card-bottom-hint">
+                <span>Klicken oder <kbd>Leertaste</kbd> zum Aufdecken</span>
+                <span>🔄 3D Flip</span>
+              </div>
+            </div>
+
+            <!-- Back Face -->
+            <div class="card-face card-face-back">
+              <div class="card-top-meta">
+                <span class="card-category-tag" style="background-color: var(--success-bg); color: var(--success);">Antwort & Erklärung</span>
+                <span style="font-weight: 600;">Wiederholungsphase</span>
+              </div>
+              <div class="card-content-center">
+                <div class="answer-text" id="card-back-answer"></div>
+              </div>
+              <div class="card-bottom-hint">
+                <span id="card-tip-text"></span>
+                <span>Klicken zum Zudecken</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rating Action Bar -->
+        <div style="display: flex; justify-content: center; margin-bottom: 1rem;">
+          <button id="btn-flip-card" class="btn btn-secondary" style="width: 100%; max-width: 320px;">
+            <span>🔄</span> Karte umdrehen (<kbd>Leertaste</kbd>)
+          </button>
+        </div>
+
+        <div class="card-actions-bar">
+          <button id="btn-rate-again" class="btn-rate btn-rate-again">
+            <span>❌ Nicht gewusst</span>
+            <span class="shortcut">Zurück in Box 1 (<kbd>1</kbd> / <kbd>←</kbd>)</span>
+          </button>
+          <button id="btn-rate-hard" class="btn-rate btn-rate-hard">
+            <span>⚠️ Unsicher</span>
+            <span class="shortcut">Box beibehalten (<kbd>2</kbd> / <kbd>↓</kbd>)</span>
+          </button>
+          <button id="btn-rate-good" class="btn-rate btn-rate-good">
+            <span>✅ Sicher gewusst!</span>
+            <span class="shortcut">Aufstieg nächste Box (<kbd>3</kbd> / <kbd>→</kbd>)</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 3: KLAUSURSIMULATOR & QUIZ
+         ==================================================================== -->
+    <section id="view-quiz" class="view-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2><span>📝</span> Klausursimulator & Multiple-Choice Quiz</h2>
+          <p class="section-desc">Teste dein Wissen unter realistischen Bedingungen: Wähle zwischen dem Lernmodus mit sofortiger didaktischer Begründung oder der Klausursimulation mit 20-Minuten-Prüfungstimer.</p>
+        </div>
+      </div>
+
+      <div class="quiz-container">
+        <!-- Quiz Mode Selector -->
+        <div class="quiz-mode-selector">
+          <div class="mode-card active" id="quiz-mode-learn">
+            <h4><span>💡</span> Lern- & Trainingsmodus</h4>
+            <p>Alle 55 Fragen (inkl. LE 6 & LE 7) mit sofortiger Auflösung, detaillierter Begründung und ohne Zeitdruck.</p>
+          </div>
+          <div class="mode-card" id="quiz-mode-exam">
+            <h4><span>⏱️</span> Klausursimulation (Realistisch)</h4>
+            <p>20 zufällige Prüfungsfragen, 20 Minuten Countdown, abschließende Notenberechnung (1,0 bis 5,0).</p>
+          </div>
+        </div>
+
+        <!-- Active Question Card -->
+        <div class="quiz-card" id="quiz-card-container">
+          <div class="quiz-meta-bar">
+            <span id="quiz-q-num" style="font-weight: 700; color: var(--primary);">Frage 1 von 40</span>
+            <span id="quiz-timer-badge" class="author-pill" style="display: none; background: var(--warning-bg); color: var(--warning);">⏱️ 20:00</span>
+          </div>
+
+          <h3 class="quiz-question-title" id="quiz-q-text">Frage wird geladen...</h3>
+
+          <div class="quiz-options-list" id="quiz-options-container"></div>
+
+          <div class="quiz-explanation-box" id="quiz-explanation-box" style="display: none;"></div>
+
+          <div style="display: flex; justify-content: flex-end;">
+            <button id="quiz-next-btn" class="btn btn-primary" style="display: none;">Nächste Frage ➔</button>
+          </div>
+        </div>
+
+        <!-- Result Container -->
+        <div class="quiz-card" id="quiz-result-container" style="display: none;"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 4: DIE 10 DEESKALATIONSTECHNIKEN
+         ==================================================================== -->
+    <section id="view-techniques" class="view-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2><span>🛡️</span> Die 10 Deeskalationstechniken</h2>
+          <p class="section-desc">Die zehn standardisierten Kommunikationstechniken der Zoll- und öffentlichen Verwaltung mit psychologischer Wirkungsweise, konkreten Handlungsschritten und Beispielen.</p>
+        </div>
+        <div class="section-controls">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="tech-filter-input" placeholder="Technik filtern..." aria-label="Technik suchen">
+          </div>
+        </div>
+      </div>
+
+      <!-- Techniques Grid -->
+      <div class="techniques-grid" id="techniques-grid-container"></div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 5: INTERAKTIVE MODELLE & SIMULATIONEN
+         ==================================================================== -->
+    <section id="view-models" class="view-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2><span>🔬</span> Interaktive Modelle & Psychologische Werkzeuge</h2>
+          <p class="section-desc">Erkunde das General Aggression Model (GAM), das Osgood-Eisbergmodell, die Politeness Theory, die Hall-Distanzzonen und den Live-Atem-Trainer für Zwerchfellatmung.</p>
+        </div>
+      </div>
+
+      <!-- MODEL 1: GAM EXPLORER -->
+      <div class="model-content-card" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <div>
+            <span class="author-pill">Allen & Anderson (2017)</span>
+            <h3 style="font-size: 1.35rem; margin-top: 0.25rem;">1. Das General Aggression Model (GAM) – Interaktives Schaubild</h3>
+          </div>
+          <span style="font-size: 0.8rem; color: var(--text-muted);">Klicke auf eine Modellkomponente</span>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 1.25rem;">
+          Unterscheide klar zwischen <strong>situativen Variablen (durch Beamte veränderbar)</strong> und <strong>personalen Variablen (nicht veränderbar)</strong> sowie den Bedingungen für die Neubewertung.
+        </p>
+
+        <div class="gam-diagram-container">
+          <!-- Inputs Column -->
+          <div class="gam-column">
+            <h4>1. INPUTS</h4>
+            <div class="gam-node unchangeable" data-key="node-person">
+              <strong>👤 Personale Variablen</strong>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Werte, Vorurteile, Sucht, Schuld, Belastung</div>
+              <span style="font-size: 0.7rem; color: var(--danger); font-weight: 700;">✖ Nicht veränderbar</span>
+            </div>
+            <div class="gam-node changeable" data-key="node-situation">
+              <strong>🏢 Situative Variablen</strong>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Hitze, Lärm (>95dB), Frustration, Provokation, Waffe</div>
+              <span style="font-size: 0.7rem; color: var(--success); font-weight: 700;">✔ Durch Beamte steuerbar!</span>
+            </div>
+          </div>
+
+          <!-- State Column -->
+          <div class="gam-column">
+            <h4>2. INNERER ZUSTAND</h4>
+            <div class="gam-node" data-key="node-kognitionen">
+              <strong>🧠 Kognitionen</strong>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Schuldzuweisung, Feindseligkeitsschemata</div>
+            </div>
+            <div class="gam-node" data-key="node-gefuehle">
+              <strong>🔥 Gefühle</strong>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Ärger-Kontinuum (Groll bis Wut)</div>
+            </div>
+            <div class="gam-node" data-key="node-erregung">
+              <strong>💓 Körperliche Erregung</strong>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Puls, Blutdruck, Adrenalin</div>
+            </div>
+          </div>
+
+          <!-- Decision Column -->
+          <div class="gam-column">
+            <h4>3. ENTSCHEIDUNG</h4>
+            <div class="gam-node" data-key="node-bewertung">
+              <strong>⚡ Automatische Bewertung</strong>
+              <div style="font-size: 0.78rem; color: var(--text-secondary); margin-top: 4px;">Blitzschnell, intuitiv</div>
+            </div>
+            <div style="background: var(--bg-card); border: 1px dashed var(--border-color); padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.8rem;">
+              <strong>Hinterfragen möglich & gewollt?</strong><br>
+              • Nein → <em>Impulsive Aggression</em> (Scheuklappen)<br>
+              • Ja → <em>Neubewertung</em> → Überlegte Handlung
+            </div>
+          </div>
+        </div>
+
+        <div id="gam-detail-panel" style="margin-top: 1rem;">
+          <div style="text-align: center; color: var(--text-muted); font-size: 0.9rem; padding: 1rem;">
+            👆 Klicke oben auf eine Kachel (z.B. <em>Situative Variablen</em> oder <em>Körperliche Erregung</em>), um die genauen Wirkungsweisen und Deeskalationshebel anzuzeigen.
+          </div>
+        </div>
+      </div>
+
+      <!-- MODEL 2: EISBERGMODELL -->
+      <div class="model-content-card" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <div>
+            <span class="author-pill">Charles E. Osgood (1951)</span>
+            <h3 style="font-size: 1.35rem; margin-top: 0.25rem;">2. Das Kulturkonzept & Eisbergmodell</h3>
+          </div>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Warum scheitert Kommunikation oft? Weil 85% der Kultur unter der Wasseroberfläche liegen (Conceptas) und das sichtbare Handeln (Perceptas) steuern.
+        </p>
+
+        <div class="iceberg-container">
+          <!-- Above Water -->
+          <div class="iceberg-part">
+            <h4 style="color: #0369a1; font-weight: 700; margin-bottom: 0.35rem;">
+              🏔️ PERCEPTAS (Sichtbarer Bereich – Oberhalb des Wassers)
+            </h4>
+            <div style="font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 0.5rem;">
+              lat. <em>percipere</em> (erfassen, wahrnehmen) • Der explikative Anteil • Das „WAS“ einer Kultur
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.82rem;">
+              <div style="background: white; padding: 0.5rem; border-radius: var(--radius-sm); border-left: 3px solid #0369a1;">
+                <strong>Soziale Kultur:</strong> Rituale, Begrüßungsformen, Zeremonien, Sprache, Sitten.
+              </div>
+              <div style="background: white; padding: 0.5rem; border-radius: var(--radius-sm); border-left: 3px solid #0369a1;">
+                <strong>Materielle Kultur:</strong> Kleidung, Architektur, Werkzeuge, Kunst, Essen, Dokumente.
+              </div>
+            </div>
+          </div>
+
+          <div class="iceberg-waterline"></div>
+
+          <!-- Below Water -->
+          <div class="iceberg-part underwater">
+            <h4 style="color: #b91c1c; font-weight: 700; margin-bottom: 0.35rem;">
+              ⚓ CONCEPTAS (Unsichtbarer Bereich – Unter der Wasseroberfläche)
+            </h4>
+            <div style="font-size: 0.85rem; font-weight: 600; color: #475569; margin-bottom: 0.5rem;">
+              lat. <em>concipere</em> (empfinden, begreifen) • Der deskriptive Anteil • Das „WARUM“ einer Kultur
+            </div>
+            <div style="background: white; padding: 0.75rem; border-radius: var(--radius-sm); font-size: 0.85rem; border-left: 3px solid #b91c1c; line-height: 1.5;">
+              <strong>Mentale Kultur:</strong> Normen, Werte, Glaubenssätze, Basisannahmen, Tabus, Kommunikationsstile, Zeitempfinden, Beziehungskonzepte.<br>
+              <em>Klausurwissen:</em> Conceptas sind die <strong>Verhaltensursache</strong>! Konflikte entstehen fast nie wegen des Essens oder der Kleidung, sondern weil tief verankerte Werte und Basisannahmen kollidieren.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODEL 3: POLITENESS MATRIX & SIMULATOR -->
+      <div class="model-content-card" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <div>
+            <span class="author-pill">Brown & Levinson (1987)</span>
+            <h3 style="font-size: 1.35rem; margin-top: 0.25rem;">3. Politeness Theory & Face Threatening Acts (FTAs)</h3>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="background: var(--bg-tertiary); padding: 1.25rem; border-radius: var(--radius-md); border-top: 4px solid var(--primary);">
+            <h4 style="color: var(--primary); font-size: 1.05rem; margin-bottom: 0.5rem;">😊 Positives Gesicht</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+              Das Bedürfnis, <strong>gemocht, respektiert, anerkannt und wertgeschätzt</strong> zu werden („Dazugehören“).
+            </p>
+            <div style="font-size: 0.8rem; background: var(--bg-card); padding: 0.5rem; border-radius: var(--radius-sm);">
+              <strong>Bedroht durch (FTAs):</strong> Kritik, Beleidigung, Ablehnung, Ignorieren, Unterbrechen, Duzen.
+            </div>
+          </div>
+
+          <div style="background: var(--bg-tertiary); padding: 1.25rem; border-radius: var(--radius-md); border-top: 4px solid var(--accent-gold);">
+            <h4 style="color: var(--accent-gold); font-size: 1.05rem; margin-bottom: 0.5rem;">🕊️ Negatives Gesicht</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0.5rem;">
+              Das Bedürfnis, <strong>autonom zu bleiben, frei zu handeln</strong> und nicht bevormundet oder eingeschränkt zu werden.
+            </p>
+            <div style="font-size: 0.8rem; background: var(--bg-card); padding: 0.5rem; border-radius: var(--radius-sm);">
+              <strong>Bedroht durch (FTAs):</strong> Befehle, Kontrollen, Aufforderungen, Mahnungen, Zwänge, Komplimente.
+            </div>
+          </div>
+        </div>
+
+        <div style="background: var(--bg-tertiary); padding: 1.25rem; border-radius: var(--radius-lg);">
+          <label for="politeness-scenario-select" style="font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 0.5rem;">
+            🎮 Interaktiver FTA-Decoder: Wähle eine dienstliche Amtshandlung
+          </label>
+          <select id="politeness-scenario-select" class="filter-select" style="width: 100%; max-width: 450px;">
+            <option value="pass">Ausweiskontrolle auf der Straße (§ 23 VwVfG / Zoll)</option>
+            <option value="koffer">Kofferkontrolle am Flughafen / Grenzübergang</option>
+            <option value="abstand">Gegenüber zum Einhalten von Abstand auffordern</option>
+          </select>
+          <div id="politeness-output-box"></div>
+        </div>
+      </div>
+
+      <!-- MODEL 4: DISTANZZONEN -->
+      <div class="model-content-card" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <div>
+            <span class="author-pill">Edward T. Hall (1966)</span>
+            <h3 style="font-size: 1.35rem; margin-top: 0.25rem;">4. Die 4 Distanzzonen im sozialen Raum</h3>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div style="background: var(--danger-bg); border: 1px solid var(--danger-border); padding: 1rem; border-radius: var(--radius-md);">
+            <strong style="color: var(--danger);">🔴 Intimdistanz (bis 0,40 m)</strong>
+            <p style="font-size: 0.82rem; margin-top: 4px; color: var(--text-secondary);">Partner, engste Familie. Unerwünschtes Eindringen löst Alarmbereitschaft und Aggression aus!</p>
+          </div>
+          <div style="background: var(--warning-bg); border: 1px solid var(--warning-border); padding: 1rem; border-radius: var(--radius-md);">
+            <strong style="color: var(--warning);">🟡 Persönliche Distanz (0,40 – 1,20 m)</strong>
+            <p style="font-size: 0.82rem; margin-top: 4px; color: var(--text-secondary);">Armlänge; Wohlfühlzone für Freunde und Kollegen. Handschlagzone.</p>
+          </div>
+          <div style="background: var(--info-bg); border: 1px solid var(--info-border); padding: 1rem; border-radius: var(--radius-md);">
+            <strong style="color: var(--info);">🔵 Soziale Distanz (1,20 – 3,60 m)</strong>
+            <p style="font-size: 0.82rem; margin-top: 4px; color: var(--text-secondary);"><strong>Standard für Behörden- und Arbeitskontexte!</strong> Garantiert Sicherheit und Respekt.</p>
+          </div>
+          <div style="background: var(--bg-tertiary); border: 1px solid var(--border-color); padding: 1rem; border-radius: var(--radius-md);">
+            <strong>⚪ Öffentliche Distanz (3,60 – 8,00 m)</strong>
+            <p style="font-size: 0.82rem; margin-top: 4px; color: var(--text-secondary);">Vorträge, Ansprachen, Fremde auf der Straße.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODEL 5: ATEM-TRAINER (ZWERCHFELLATMUNG) -->
+      <div class="model-content-card" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <div>
+            <span class="author-pill">Kjærvik (2023) / Jacobson (1938)</span>
+            <h3 style="font-size: 1.35rem; margin-top: 0.25rem;">5. Live-Trainer: Zwerchfellatmung zur Ärgerregulation</h3>
+          </div>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text-secondary);">
+          Gegen den Katharsis-Mythos: Nicht „Dampf ablassen“ (macht es schlimmer), sondern die <strong>Hitze runterdrehen</strong>! 5,5 bis 6 Atemzüge pro Minute aktivieren den Parasympathikus und senken Puls und Adrenalin.
+        </p>
+
+        <div class="breath-trainer-widget">
+          <div class="breath-circle-container">
+            <div class="breath-circle" id="breath-circle">Atem</div>
+          </div>
+          <h4 id="breath-status-text" style="font-size: 1.15rem; color: var(--primary); margin-bottom: 0.25rem;">Bereit für Zwerchfellatmung</h4>
+          <p id="breath-timer-text" style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.25rem;">4s Einatmen • 2s Ausatmen • 4s Pause</p>
+          <button id="btn-breath-toggle" class="btn btn-primary">▶️ Atem-Trainer starten</button>
+        </div>
+      </div>
+
+      <!-- MODEL 6: MEDIA RICHNESS THEORY (LE 6) -->
+      <div class="model-content-card" style="margin-bottom: 2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <div>
+            <span class="author-pill">Daft & Lengel (1986) / Sudmann (2020) – LE 6</span>
+            <h3 style="font-size: 1.35rem; margin-top: 0.25rem;">6. Media Richness Theory (MRT) & Kanal-Matrix</h3>
+          </div>
+        </div>
+        <p style="font-size: 0.92rem; color: var(--text-secondary); margin-bottom: 1rem;">
+          Effektive Kommunikation entsteht, wenn die <strong>Medienreichhaltigkeit (Media Richness)</strong> zur <strong>Aufgabenkomplexität</strong> passt. Wähle ein Szenario aus dem Sachgebiet B:
+        </p>
+
+        <div style="background: var(--bg-tertiary); padding: 1.25rem; border-radius: var(--radius-lg); margin-bottom: 1rem;">
+          <label for="mrt-task-select" style="font-weight: 700; font-size: 0.95rem; display: block; margin-bottom: 0.5rem;">
+            💻 Interaktiver MRT-Kanal-Berater: Wähle eine Kommunikationsaufgabe
+          </label>
+          <select id="mrt-task-select" class="filter-select" style="width: 100%; max-width: 520px;">
+            <option value="termin">1. Einfache Terminabstimmung / Statusbericht im Team</option>
+            <option value="fachwissen">2. Komplexe Fachdokumentation & Wissenstransfer (Sachgebiet B)</option>
+            <option value="konflikt">3. Konfliktgespräch / Kritisches Feedback bei Leistungsabfall</option>
+          </select>
+          <div id="mrt-output-box"></div>
+        </div>
+      </div>
+
+      <!-- MODEL 7: NACHRICHTENQUADRAT IM DIGITALEN & COMMITMENT (LE 7) -->
+      <div class="model-content-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+          <div>
+            <span class="author-pill">Schulz von Thun / Herrmann et al. (2012) / Meyer & Allen (1990) – LE 7</span>
+            <h3 style="font-size: 1.35rem; margin-top: 0.25rem;">7. Die digitale „Lücke“ im Nachrichtenquadrat & 3-Komponenten-Commitment</h3>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 1rem;">
+          <div style="background: var(--danger-bg); border: 1px solid var(--danger-border); padding: 1.15rem; border-radius: var(--radius-md);">
+            <strong style="color: var(--danger); font-size: 1rem;">⚠️ Die „Lücke“ im digitalen Nachrichtenquadrat</strong>
+            <p style="font-size: 0.84rem; margin-top: 6px; color: var(--text-secondary); line-height: 1.5;">
+              Während der <strong>Sachinhalt</strong> schriftlich klar ist, fehlen für <strong>Selbstkundgabe, Beziehung und Appell</strong> die analogen (non-/paraverbalen) Reize.<br>
+              👉 Empfänger füllen diese Lücke mit eigenen Emotionen & Vorgeschichte (<em>unterstellte Selbstkundgabe, empfundene Abwertung, impliziter Appell</em>).<br>
+              <strong>Lösung (Herrmann et al., 2012):</strong> Zeitnahe Rückkopplung (Medienwechsel auf Telefonat bei E-Mail-Ärger!), Kontextinfos liefern, vollständig auf allen 4 Seiten kommunizieren, verschriftlichen, aktiv kommunizieren.
+            </p>
+          </div>
+
+          <div style="background: var(--info-bg); border: 1px solid var(--info-border); padding: 1.15rem; border-radius: var(--radius-md);">
+            <strong style="color: var(--info); font-size: 1rem;">🤝 Organisationales Commitment (Meyer & Allen, 1990)</strong>
+            <p style="font-size: 0.84rem; margin-top: 6px; color: var(--text-secondary); line-height: 1.5;">
+              • <strong>Affektives Commitment („Ich will“):</strong> Emotionale Bindung & Identifikation (fehlt es → kaum Eigeninitiative & <em>höherer Krankenstand</em> nach Sass 2026!).<br>
+              • <strong>Normatives Commitment („Ich sollte“):</strong> Moralisches Pflichtgefühl / Sozialisation.<br>
+              • <strong>Fortsetzungsbezogenes Commitment („Ich muss“):</strong> Bisherige Investitionen & Alternativlosigkeit.<br>
+              <strong>Top-Förderfaktoren (Sass, 2026):</strong> Selbstwertrelevante Faktoren wie <em>Verantwortungsübernahme & Anerkennung</em>!
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 6: FALLSTUDIEN & PRAXISSZENARIEN
+         ==================================================================== -->
+    <section id="view-cases" class="view-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2><span>⚖️</span> Fallstudien & Praxis-Labor</h2>
+          <p class="section-desc">Echte Einsatzszenarien aus dem Zolldienst und der Verwaltung: Analysiere den Konflikt anhand der gelernten Theorien und triff die deeskalativ richtige Entscheidung.</p>
+        </div>
+      </div>
+
+      <div id="case-studies-container"></div>
+    </section>
+
+    <!-- ====================================================================
+         VIEW 7: KLAUSUR-SPICKZETTEL (PRINT-READY)
+         ==================================================================== -->
+    <section id="view-cheatsheet" class="view-section">
+      <div class="section-header">
+        <div class="section-title-wrap">
+          <h2><span>⚡</span> Klausur-Spickzettel & Cheat Sheet</h2>
+          <p class="section-desc">Kompakte High-Yield-Zusammenfassung aller Kernkonzepte für die letzten Stunden vor der Modulprüfung. Optimiert für Druck und PDF-Export.</p>
+        </div>
+        <div class="section-controls">
+          <button id="btn-print-cheat" class="btn btn-primary">🖨️ Spickzettel drucken / als PDF speichern</button>
+        </div>
+      </div>
+
+      <div class="cheat-sheet-grid" id="cheat-sheet-grid"></div>
+    </section>
+
+  </main>
+
+  <!-- App Data and Controller Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
